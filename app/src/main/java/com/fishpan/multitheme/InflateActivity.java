@@ -121,6 +121,13 @@ public class InflateActivity extends AppCompatActivity {
         return this;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //  卸载ThemeManager中map对当前Activity实例的引用，防止内存泄漏
+        ThemeManager.getInstance().unApplyActivity(this);
+    }
+
     public static void launcherActivity(Context context){
         if(null != context){
             Intent intent = new Intent(context, InflateActivity.class);

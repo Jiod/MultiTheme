@@ -19,22 +19,36 @@ public class ThemeManager {
 
     private ThemeManager() {}
 
-    public void installThemeView(Activity activity, ThemeView themeView){
-        List<ThemeView> themeViews = themeMap.get(activity);
-        if(null == themeViews){
-            themeViews = new ArrayList<>();
-        }
+    public void applyThemeView(Activity activity, ThemeView themeView){
+        if(null != themeView) {
+            List<ThemeView> themeViews = themeMap.get(activity);
+            if (null == themeViews) {
+                themeViews = new ArrayList<>();
+            }
 
-        themeViews.add(themeView);
-        themeMap.put(activity, themeViews);
+            themeViews.add(themeView);
+            themeMap.put(activity, themeViews);
+
+            if(supportTheme()){ //如果支持换肤，就调用ThemeView的apply方法
+                themeView.apply();
+            }
+        }
     }
 
-    public void onActivityDestory(Activity activity){
+    /**
+     * 清除实例中themeMap对Activity的引用，防止内存泄漏，建议在Activity#onDestory方法中调用
+     * @param activity 要销毁的Activity
+     */
+    public void unApplyActivity(Activity activity){
         themeMap.remove(activity);
     }
 
-    public void applyTheme(){
-
+    /**
+     * 是否支持换肤
+     * @return true/false
+     */
+    public boolean supportTheme(){
+        return true;
     }
 
     public static ThemeManager getInstance(){
@@ -85,7 +99,7 @@ public class ThemeManager {
             }
         }
         if(null != themeView){
-            installThemeView(activity, themeView);
+            applyThemeView(activity, themeView);
         }
     }
 }
