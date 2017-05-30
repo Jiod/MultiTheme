@@ -53,7 +53,7 @@ public class InflateActivity extends AppCompatActivity {
                 /***********自己构建View结束************/
 
                 if(null != view){
-                    ThemeManager.getInstance().supportTheme(InflateActivity.this, view, attributeSet);
+                    ThemeManager.getInstance().supportTheme(getThisActivity(), view, attributeSet);
                 }
                 return view;
             }
@@ -115,6 +115,10 @@ public class InflateActivity extends AppCompatActivity {
         } catch (Exception var6) {
             return null;
         }
+    }
+
+    public Activity getThisActivity(){
+        return this;
     }
 
     public static void launcherActivity(Context context){
